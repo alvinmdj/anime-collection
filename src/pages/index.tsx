@@ -1,40 +1,17 @@
-import Head from 'next/head';
+import { GET_ANIME_LIST } from '@/graphql/anime';
+import { useQuery } from '@apollo/client';
 import { Inter } from 'next/font/google';
-import { gql, useQuery } from '@apollo/client';
-import { useState } from 'react';
+import Head from 'next/head';
 import Image from 'next/image';
+import Link from 'next/link';
+import { useState } from 'react';
 
 const inter = Inter({ subsets: ['latin'] });
-
-const GET_ANIME = gql`
-  query ($id: Int, $page: Int, $perPage: Int) {
-    Page(page: $page, perPage: $perPage) {
-      pageInfo {
-        total
-        currentPage
-        lastPage
-        hasNextPage
-        perPage
-      }
-      # Define which variables will be used in the query (id)
-      media(id: $id, type: ANIME) {
-        # Insert our variables into the query arguments (id) (type: ANIME is hard-coded in the query)
-        id
-        title {
-          english
-        }
-        coverImage {
-          large
-        }
-      }
-    }
-  }
-`;
 
 export default function Home() {
   const [page, setPage] = useState(1);
 
-  const anime = useQuery(GET_ANIME, {
+  const anime = useQuery(GET_ANIME_LIST, {
     variables: {
       page,
       perPage: 10,
@@ -44,7 +21,7 @@ export default function Home() {
   function handlePagination(type: 'PREV' | 'NEXT') {
     if (type === 'PREV' && page > 1) {
       setPage(page - 1);
-    } else if (type === 'NEXT' && anime.data.Page.pageInfo.hasNextPage) {
+    } else if (type === 'NEXT' && anime.data?.Page?.pageInfo?.hasNextPage) {
       setPage(page + 1);
     }
   }
@@ -66,12 +43,17 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={`${inter.className}`}>
-        {anime.data.Page.media.map(((m: any) => (
-          <div key={m.id}>
-            <Image src={m.coverImage.large} alt={m.title.english} width={100} height={100} />
-            <p>{m.title.english}</p>
-          </div>
-        )))}
+        {anime.data?.Page?.media?.map((m) => (
+          <Link key={m?.id} href={`/anime/${m?.id}`}>
+            <Image
+              src={m?.coverImage?.large || ''}
+              alt={m?.title?.english || ''}
+              width={100}
+              height={100}
+            />
+            <p>{m?.title?.english}</p>
+          </Link>
+        ))}
         <button onClick={() => handlePagination('PREV')}>prev</button>
         <button onClick={() => handlePagination('NEXT')}>next</button>
       </main>
