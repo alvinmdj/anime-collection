@@ -1,56 +1,42 @@
-import { ReactNode, useCallback, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import CollectionContext, { TAnime, TCollection } from './collection-context';
 
 const CollectionContextProvider = ({ children }: { children: ReactNode }) => {
   const [collections, setCollections] = useState<TCollection[]>([]);
-  // collections
-  // [
-  //   {
-  //     id: string,
-  //     name: string,
-  //     anime: [
-  //       {
-  //         id,
-  //         name,
-  //         coverimage
-  //       }
-  //     ]
-  //   },
-  //   {
-  //     id: string,
-  //     name: string,
-  //     anime: []
-  //   }
-  // ]
+  const [anime, setAnime] = useState<TAnime[]>([]);
+
+  const isMounted = useRef(false);
 
   useEffect(() => {
-    const storableCollections = collections.map((collection) => {
-      return {
-        id: collection.id,
-        name: collection.name,
-        coverImage: collection.coverImage,
-      };
-    });
-    localStorage.setItem('collections', JSON.stringify(storableCollections));
+    const collectionsJson = localStorage.getItem('collections');
+    const collections = collectionsJson ? JSON.parse(collectionsJson) : [];
+
+    const animeJson = localStorage.getItem('anime');
+    const anime = animeJson ? JSON.parse(animeJson) : [];
+
+    setCollections(collections);
+    setAnime(anime);
+  }, []);
+
+  useEffect(() => {
+    if (isMounted.current) {
+      localStorage.setItem('collections', JSON.stringify(collections));
+      console.log('collection useeffect');
+    } else isMounted.current = true;
   }, [collections]);
 
-  function createCollection(
-    name: string,
-    coverImage: string = '',
-    anime: TAnime[] = []
-  ) {
+  useEffect(() => {
+    if (isMounted.current) {
+      localStorage.setItem('anime', JSON.stringify(anime));
+      console.log('anime useeffect');
+    } else isMounted.current = true;
+  }, [anime]);
+
+  function createCollection(name: string, coverImage: string = '') {
     // TODO: create collection, require name, generate random id
     const id = uuidv4();
-    setCollections((prevState) => [
-      ...prevState,
-      {
-        id,
-        name,
-        coverImage,
-        anime,
-      },
-    ]);
+    setCollections((prevState) => [...prevState, { id, name, coverImage }]);
   }
 
   function deleteCollection() {
@@ -65,12 +51,6 @@ const CollectionContextProvider = ({ children }: { children: ReactNode }) => {
     // TODO: update collection cover image accordingly, if all anime deleted from collections, remove collection cover image
   }
 
-  const initContext = useCallback(async () => {
-    const collections = localStorage.getItem('collections');
-    const storedMemories = collections ? JSON.parse(collections) : [];
-    setCollections(storedMemories);
-  }, []);
-
   return (
     <CollectionContext.Provider
       value={{
@@ -79,7 +59,6 @@ const CollectionContextProvider = ({ children }: { children: ReactNode }) => {
         deleteCollection,
         addAnimeToCollection,
         removeAnimeFromCollection,
-        initContext,
       }}
     >
       {children}

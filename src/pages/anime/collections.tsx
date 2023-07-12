@@ -1,18 +1,31 @@
 import MainLayout from '@/components/Layout/MainLayout';
 import CollectionContext from '@/context/collection-context';
-import { useContext } from 'react';
+import { FormEvent, useContext, useState } from 'react';
 
 const Collections = () => {
-  const { collections } = useContext(CollectionContext);
-  console.log('collections =>', collections);
+  const { collections, createCollection } = useContext(CollectionContext);
+
+  const [name, setName] = useState('');
+
+  function handleSubmit(e: FormEvent) {
+    e.preventDefault();
+    {
+      /* // TODO: validate name as requirement */
+    }
+    createCollection(name);
+  }
+
   return (
     <MainLayout>
       <h1>Collections</h1>
-      <form>
-        <input type="text" />
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <button>Create new collection</button>
       </form>
-      <button>Create new collection</button>
-      {/* // TODO: validate name as requirement */}
       {collections.map((col) => (
         <div key={col.id}>
           <p>{col.name}</p>
