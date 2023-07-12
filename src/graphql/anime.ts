@@ -1,7 +1,7 @@
 import { gql } from '@/__generated__';
 
 export const GET_ANIME_LIST = gql(`
-  query GetAnimeList($page: Int, $perPage: Int) {
+  query GetAnimeList($page: Int, $perPage: Int, $sort: [MediaSort]) {
     Page(page: $page, perPage: $perPage) {
       pageInfo {
         total
@@ -11,11 +11,13 @@ export const GET_ANIME_LIST = gql(`
         perPage
       }
       # Define which variables will be used in the query (id)
-      media(type: ANIME) {
+      media(type: ANIME, sort: $sort) {
         # Insert our variables into the query arguments (id) (type: ANIME is hard-coded in the query)
         id
         title {
+          romaji
           english
+          native
         }
         coverImage {
           large
