@@ -1,8 +1,28 @@
 import { ReactNode, useCallback, useEffect, useState } from 'react';
-import CollectionContext, { TCollection } from './collection-context';
+import { v4 as uuidv4 } from 'uuid';
+import CollectionContext, { TAnime, TCollection } from './collection-context';
 
 const CollectionContextProvider = ({ children }: { children: ReactNode }) => {
   const [collections, setCollections] = useState<TCollection[]>([]);
+  // collections
+  // [
+  //   {
+  //     id: string,
+  //     name: string,
+  //     anime: [
+  //       {
+  //         id,
+  //         name,
+  //         coverimage
+  //       }
+  //     ]
+  //   },
+  //   {
+  //     id: string,
+  //     name: string,
+  //     anime: []
+  //   }
+  // ]
 
   useEffect(() => {
     const storableCollections = collections.map((collection) => {
@@ -15,8 +35,22 @@ const CollectionContextProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem('collections', JSON.stringify(storableCollections));
   }, [collections]);
 
-  function createCollection() {
+  function createCollection(
+    name: string,
+    coverImage: string = '',
+    anime: TAnime[] = []
+  ) {
     // TODO: create collection, require name, generate random id
+    const id = uuidv4();
+    setCollections((prevState) => [
+      ...prevState,
+      {
+        id,
+        name,
+        coverImage,
+        anime,
+      },
+    ]);
   }
 
   function deleteCollection() {
