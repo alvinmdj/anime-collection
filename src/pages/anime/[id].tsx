@@ -1,3 +1,4 @@
+import MainLayout from '@/components/Layout/MainLayout';
 import { GET_ANIME_DETAIL } from '@/graphql/anime';
 import { useQuery } from '@apollo/client';
 import Image from 'next/image';
@@ -21,7 +22,7 @@ const AnimeDetail = () => {
   }
 
   return (
-    <div>
+    <MainLayout>
       <Image
         src={animeDetail.data?.Media?.bannerImage || ''}
         alt={animeDetail.data?.Media?.title?.english || ''}
@@ -35,7 +36,8 @@ const AnimeDetail = () => {
         {animeDetail.data?.Media?.title?.romaji})
       </p>
       <p>{animeDetail.data?.Media?.description}</p>
-    </div>
+      <button>Add to Collection</button>
+    </MainLayout>
   );
 };
 

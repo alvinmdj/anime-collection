@@ -1,5 +1,6 @@
 import CollectionContextProvider from '@/context/CollectionContextProvider';
 import { client } from '@/lib/apollo-client';
+import '@/styles/global.css';
 import { ApolloProvider } from '@apollo/client';
 import type { AppProps } from 'next/app';
 
