@@ -7,7 +7,8 @@ import Link from 'next/link';
 import { useContext, useState } from 'react';
 
 const Collections = () => {
-  const { collections } = useContext(CollectionContext);
+  const { collections, removeAnimeFromCollection } =
+    useContext(CollectionContext);
 
   const [showModal, setShowModal] = useState(false);
 

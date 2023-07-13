@@ -67,11 +67,16 @@ const CollectionContextProvider = ({ children }: { children: ReactNode }) => {
     coverImage,
   }: TAnime) {
     // if collection still empty, set collection coverImage with the first anime added
-    setCollections((prevState) =>
-      prevState.map((col) =>
-        col.id === collectionId ? { ...col, coverImage } : col
-      )
+    const isCollectionContainAnime = anime.find(
+      (ani) => ani.collectionId === collectionId
     );
+    if (!isCollectionContainAnime) {
+      setCollections((prevState) =>
+        prevState.map((col) =>
+          col.id === collectionId ? { ...col, coverImage } : col
+        )
+      );
+    }
 
     // add anime to collection
     setAnime((prevState) => [
@@ -80,30 +85,36 @@ const CollectionContextProvider = ({ children }: { children: ReactNode }) => {
     ]);
   }
 
-  function updateCollectionCoverImage(collectionId: string) {
-    const collection = collections.find((col) => col.id === collectionId);
-    if (collection) {
-      const firstAnime = anime.find((a) => a.collectionId === collectionId);
-      if (firstAnime) {
-        collection.coverImage = firstAnime.coverImage;
-      } else {
-        collection?.coverImage;
-      }
-      setCollections([...collections]);
-    }
-  }
-
   function removeAnimeFromCollection(id: number, collectionId: string) {
     const updatedAnime = anime.filter(
       (ani) => !(ani.id === id && ani.collectionId === collectionId)
     );
+
+    // check if first anime is the one to be removed
     const isFirstAnimeRemoved =
       anime.find((a) => a.collectionId === collectionId)?.id === id;
 
     setAnime([...updatedAnime]);
 
+    // update cover image for the collection if first anime removed
     if (isFirstAnimeRemoved) {
-      updateCollectionCoverImage(collectionId);
+      const collection = collections.find((col) => col.id === collectionId);
+
+      if (collection) {
+        // get first anime after removal
+        const firstUpdatedAnime = updatedAnime.find(
+          (a) => a.collectionId === collectionId
+        );
+
+        // update collection cover image accordingly
+        if (firstUpdatedAnime) {
+          collection.coverImage = firstUpdatedAnime.coverImage;
+        } else {
+          collection.coverImage = '';
+        }
+
+        setCollections([...collections]);
+      }
     }
   }
 
