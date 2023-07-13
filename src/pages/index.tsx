@@ -2,6 +2,7 @@ import { MediaSort } from '@/__generated__/graphql';
 import AnimeCard from '@/components/Anime/AnimeCard';
 import AnimeListContainer from '@/components/Anime/AnimeListContainer';
 import Layout from '@/components/Layout/MainLayout';
+import Heading from '@/components/Text/Heading';
 import { GET_ANIME_LIST } from '@/graphql/anime';
 import { useQuery } from '@apollo/client';
 import { Inter } from 'next/font/google';
@@ -42,7 +43,7 @@ export default function Home() {
   return (
     <>
       <Layout>
-        <h1>All-Time Popular Anime</h1>
+        <Heading>All-Time Popular Anime</Heading>
         <AnimeListContainer>
           {anime.loading && <p>Loading...</p>}
           {anime.error && <p>Error!</p>}
