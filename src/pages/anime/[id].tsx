@@ -1,11 +1,18 @@
 import MainLayout from '@/components/Layout/MainLayout';
+import AddAnimeModal from '@/components/Modal/AddAnimeModal';
+import CollectionContext from '@/context/collection-context';
 import { GET_ANIME_DETAIL } from '@/graphql/anime';
 import { useQuery } from '@apollo/client';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useContext, useState } from 'react';
 
 const AnimeDetail = () => {
   const router = useRouter();
+
+  const { getAnimeCollections } = useContext(CollectionContext);
+
+  const [showModal, setShowModal] = useState(false);
 
   const animeDetail = useQuery(GET_ANIME_DETAIL, {
     variables: {
@@ -35,8 +42,22 @@ const AnimeDetail = () => {
         {animeDetail.data?.Media?.title?.english} (
         {animeDetail.data?.Media?.title?.romaji})
       </p>
-      <p>{animeDetail.data?.Media?.description}</p>
-      <button>Add to Collection</button>
+      <div
+        dangerouslySetInnerHTML={{
+          __html: animeDetail.data?.Media?.description || '',
+        }}
+      />
+      <button onClick={() => setShowModal(true)}>Add to Collection</button>
+      {getAnimeCollections(animeDetail.data?.Media?.id || -1).map((col) => (
+        <div key={col.id}>
+          <p>{col.name}</p>
+        </div>
+      ))}
+      <AddAnimeModal
+        data={animeDetail.data}
+        show={showModal}
+        onClose={() => setShowModal(false)}
+      />
     </MainLayout>
   );
 };

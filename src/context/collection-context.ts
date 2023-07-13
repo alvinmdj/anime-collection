@@ -8,12 +8,12 @@ export type TCollection = {
 
 export type TAnime = {
   collectionId: string;
-  id: string;
-  name: string;
+  id: number;
+  title: string;
   coverImage: string;
 };
 
-const CollectionContext = createContext<{
+type TCollectionContext = {
   collections: TCollection[];
   createCollection: (
     name: string,
@@ -21,14 +21,12 @@ const CollectionContext = createContext<{
     anime?: TAnime[]
   ) => void;
   deleteCollection: (id: string) => void;
+  isAnimeInCollection: (animeId: number, collectionId: string) => boolean;
+  getAnimeCollections: (animeId: number) => TCollection[];
   addAnimeToCollection: (input: TAnime) => void;
-  removeAnimeFromCollection: (id: string, collectionId: string) => void;
-}>({
-  collections: [],
-  createCollection: () => {},
-  deleteCollection: () => {},
-  addAnimeToCollection: () => {},
-  removeAnimeFromCollection: () => {},
-});
+  removeAnimeFromCollection: (id: number, collectionId: string) => void;
+};
+
+const CollectionContext = createContext({} as TCollectionContext);
 
 export default CollectionContext;

@@ -11,44 +11,100 @@ const CollectionContextProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const collectionsJson = localStorage.getItem('collections');
     const collections = collectionsJson ? JSON.parse(collectionsJson) : [];
+    setCollections(collections);
 
     const animeJson = localStorage.getItem('anime');
     const anime = animeJson ? JSON.parse(animeJson) : [];
-
-    setCollections(collections);
     setAnime(anime);
   }, []);
 
   useEffect(() => {
     if (isMounted.current) {
       localStorage.setItem('collections', JSON.stringify(collections));
-      console.log('collection useeffect');
-    } else isMounted.current = true;
-  }, [collections]);
-
-  useEffect(() => {
-    if (isMounted.current) {
       localStorage.setItem('anime', JSON.stringify(anime));
-      console.log('anime useeffect');
     } else isMounted.current = true;
-  }, [anime]);
+  }, [collections, anime]);
 
   function createCollection(name: string, coverImage: string = '') {
-    // TODO: create collection, require name, generate random id
     const id = uuidv4();
     setCollections((prevState) => [...prevState, { id, name, coverImage }]);
   }
 
-  function deleteCollection() {
-    // TODO: delete collection by id
+  function deleteCollection(collectionId: string) {
+    // delete all anime from this collection
+    setAnime((prevState) => {
+      return prevState.filter((anime) => anime.collectionId !== collectionId);
+    });
+
+    // delete collection
+    setCollections((prevState) => {
+      return prevState.filter((col) => col.id !== collectionId);
+    });
   }
 
-  function addAnimeToCollection() {
-    // TODO: if collection still empty, set collection coverImage with the first anime added
+  function isAnimeInCollection(animeId: number, collectionId: string) {
+    const matchingAnime = anime.find(
+      (a) => a.id === animeId && a.collectionId === collectionId
+    );
+    return !!matchingAnime;
   }
 
-  function removeAnimeFromCollection() {
-    // TODO: update collection cover image accordingly, if all anime deleted from collections, remove collection cover image
+  function getAnimeCollections(animeId: number) {
+    // get anime from context by animeId
+    const matchingAnime = anime.filter((a) => a.id === animeId);
+
+    // get the collectionIds from above
+    const collectionIds = matchingAnime.map((a) => a.collectionId);
+
+    // return collections from collectionIds
+    return collections.filter((c) => collectionIds.includes(c.id));
+  }
+
+  function addAnimeToCollection({
+    collectionId,
+    id,
+    title,
+    coverImage,
+  }: TAnime) {
+    // if collection still empty, set collection coverImage with the first anime added
+    setCollections((prevState) =>
+      prevState.map((col) =>
+        col.id === collectionId ? { ...col, coverImage } : col
+      )
+    );
+
+    // add anime to collection
+    setAnime((prevState) => [
+      ...prevState,
+      { collectionId, id, title, coverImage },
+    ]);
+  }
+
+  function updateCollectionCoverImage(collectionId: string) {
+    const collection = collections.find((col) => col.id === collectionId);
+    if (collection) {
+      const firstAnime = anime.find((a) => a.collectionId === collectionId);
+      if (firstAnime) {
+        collection.coverImage = firstAnime.coverImage;
+      } else {
+        collection?.coverImage;
+      }
+      setCollections([...collections]);
+    }
+  }
+
+  function removeAnimeFromCollection(id: number, collectionId: string) {
+    const updatedAnime = anime.filter(
+      (ani) => !(ani.id === id && ani.collectionId === collectionId)
+    );
+    const isFirstAnimeRemoved =
+      anime.find((a) => a.collectionId === collectionId)?.id === id;
+
+    setAnime([...updatedAnime]);
+
+    if (isFirstAnimeRemoved) {
+      updateCollectionCoverImage(collectionId);
+    }
   }
 
   return (
@@ -57,6 +113,8 @@ const CollectionContextProvider = ({ children }: { children: ReactNode }) => {
         collections,
         createCollection,
         deleteCollection,
+        isAnimeInCollection,
+        getAnimeCollections,
         addAnimeToCollection,
         removeAnimeFromCollection,
       }}
