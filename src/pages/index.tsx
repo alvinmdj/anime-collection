@@ -2,6 +2,7 @@ import { MediaSort } from '@/__generated__/graphql';
 import AnimeCard from '@/components/Anime/AnimeCard';
 import AnimeListContainer from '@/components/Anime/AnimeListContainer';
 import Layout from '@/components/Layout/MainLayout';
+import Pagination from '@/components/Pagination';
 import Heading from '@/components/Text/Heading';
 import { GET_ANIME_LIST } from '@/graphql/anime';
 import { useQuery } from '@apollo/client';
@@ -56,10 +57,11 @@ export default function Home() {
             />
           ))}
         </AnimeListContainer>
-        <div>
-          <button onClick={() => handlePagination('PREV')}>prev</button>
-          <button onClick={() => handlePagination('NEXT')}>next</button>
-        </div>
+        <Pagination
+          handlePagination={handlePagination}
+          currentPage={anime.data?.Page?.pageInfo?.currentPage || 1}
+          hasNextPage={anime.data?.Page?.pageInfo?.hasNextPage || false}
+        />
       </Layout>
     </>
   );

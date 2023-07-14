@@ -2,8 +2,9 @@ import styled from '@emotion/styled';
 import Link from 'next/link';
 
 const HeaderContainer = styled.div((props) => ({
+  backgroundColor: '#2b2d42',
   width: '100%',
-  height: '48px',
+  padding: '16px',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
@@ -11,22 +12,24 @@ const HeaderContainer = styled.div((props) => ({
 }));
 
 const NavLink = styled.div((props) => ({
-  padding: '5px',
+  color: 'white',
+  padding: '8px 12px',
   borderRadius: '8px',
+  transition: 'background-color 0.2s',
   ':hover': {
-    backgroundColor: '#e1e6e5',
+    backgroundColor: '#454a66',
   },
 }));
 
 const Header = () => {
   return (
     <HeaderContainer>
-      <NavLink>
-        <Link href="/">Home</Link>
-      </NavLink>
-      <NavLink>
-        <Link href="/anime/collections">Collections</Link>
-      </NavLink>
+      <Link href="/">
+        <NavLink>Home</NavLink>
+      </Link>
+      <Link href="/anime/collections">
+        <NavLink>Collections</NavLink>
+      </Link>
     </HeaderContainer>
   );
 };
