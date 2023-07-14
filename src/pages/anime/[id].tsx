@@ -27,6 +27,8 @@ const AnimeDetail = () => {
     },
   });
 
+  const savedAnime = getAnimeCollections(animeDetail.data?.Media?.id || -1);
+
   return (
     <MainLayout>
       {animeDetail.loading && <p>Loading...</p>}
@@ -88,11 +90,11 @@ const AnimeDetail = () => {
               Add to Collection
             </Button>
             <AnimeCollection>
-              <strong>Anime saved in these collections:</strong>
-              <FlexWrapper>
-                {getAnimeCollections(animeDetail.data?.Media?.id || -1).map(
-                  (col) => (
-                    <Link key={col.id} href={`/anime/collections/${col.id}`}>
+              <strong>Anime has been saved into these collections:</strong>
+              {!!savedAnime.length ? (
+                <FlexWrapper>
+                  {savedAnime.map((col) => (
+                    <Link key={col.id} href={`/anime/collections/${col.name}`}>
                       <CoverImage
                         src={col.coverImage || '/images/empty-collection.png'}
                         alt={col.name}
@@ -101,9 +103,11 @@ const AnimeDetail = () => {
                       />
                       <p>{col.name}</p>
                     </Link>
-                  )
-                )}
-              </FlexWrapper>
+                  ))}
+                </FlexWrapper>
+              ) : (
+                <p>None</p>
+              )}
             </AnimeCollection>
             <AddAnimeModal
               data={animeDetail.data}

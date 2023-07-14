@@ -1,6 +1,6 @@
 import { mq } from '@/utils/media-query';
 import styled from '@emotion/styled';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 
 type TModalProps = {
   show: boolean;
@@ -10,6 +10,10 @@ type TModalProps = {
 };
 
 const Modal = ({ show, onClose, title, children }: TModalProps) => {
+  useEffect(() => {
+    document.body.style.overflow = show ? 'hidden' : '';
+  }, [show]);
+
   if (!show) return null;
 
   return (

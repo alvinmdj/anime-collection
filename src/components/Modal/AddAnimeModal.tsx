@@ -4,6 +4,7 @@ import { QueryResult } from '@apollo/client';
 import { FormEvent, useContext, useEffect, useState } from 'react';
 import Modal, { ModalFooter } from '.';
 import Button from '../Button';
+import ErrorMessage from '../Text/ErrorMessage';
 import CreateCollectionModal from './CreateCollectionModal';
 
 type TAddAnimeModalProps = {
@@ -81,7 +82,7 @@ const AddAnimeModal = ({ data, show, onClose }: TAddAnimeModalProps) => {
             </option>
           ))}
         </select>
-        {error && <p>{error}</p>}
+        {error && <ErrorMessage>{error}</ErrorMessage>}
         <ModalFooter>
           <Button colorType="primary" type="submit">
             Add

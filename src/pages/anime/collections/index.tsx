@@ -16,7 +16,7 @@ const Collections = () => {
     <MainLayout>
       <h1>Collections</h1>
       <Button colorType="primary" onClick={() => setShowModal(true)}>
-        Add new collection
+        Create new collection
       </Button>
       <div>
         {collections.map((col) => (

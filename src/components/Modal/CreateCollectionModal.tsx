@@ -1,8 +1,10 @@
 import CollectionContext from '@/context/collection-context';
 import { regexCollectionNameValidation } from '@/utils/regex';
-import { FormEvent, useContext, useState } from 'react';
+import { FormEvent, useContext, useEffect, useState } from 'react';
 import Modal, { ModalFooter } from '.';
 import Button from '../Button';
+import InputWithLabel from '../InputWithLabel';
+import ErrorMessage from '../Text/ErrorMessage';
 
 type TCreateCollectionModalProps = {
   show: boolean;
@@ -20,9 +22,14 @@ const CreateCollectionModal = ({
   const [name, setName] = useState('');
   const [error, setError] = useState('');
 
+  useEffect(() => {
+    setError('');
+    setName('');
+  }, [show]);
+
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    if (!regexCollectionNameValidation.test(name)) {
+    if (!regexCollectionNameValidation.test(name.trim())) {
       setError('Name must not contain special character(s)');
       return;
     }
@@ -39,18 +46,18 @@ const CreateCollectionModal = ({
   return (
     <Modal show={show} onClose={onClose} title={title || 'Create Collection'}>
       <form onSubmit={handleSubmit}>
-        <input
+        <InputWithLabel
+          label="Name"
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
-        <button>Create new collection</button>
-        {error && <p>{error}</p>}
+        {error && <ErrorMessage>{error}</ErrorMessage>}
         <ModalFooter>
-          <Button colorType="primary" onClick={onClose}>
-            Submit
+          <Button colorType="primary" type="submit">
+            Create
           </Button>
-          <Button colorType="danger" onClick={onClose}>
+          <Button colorType="danger" type="button" onClick={onClose}>
             Cancel
           </Button>
         </ModalFooter>
