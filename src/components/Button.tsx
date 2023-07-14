@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 
 type TButtonProps = {
-  colorType: 'primary' | 'danger';
+  colorType: 'primary' | 'warning' | 'danger';
   width?: string;
   margin?: string;
 };
@@ -16,6 +16,11 @@ const colorSchemes: {
   primary: {
     backgroundColor: '#2b2d42',
     hoverColor: '#394168',
+    textColor: '#FFFFFF',
+  },
+  warning: {
+    backgroundColor: '#FFA500',
+    hoverColor: '#FF9100',
     textColor: '#FFFFFF',
   },
   danger: {

@@ -1,6 +1,7 @@
 import Button from '@/components/Button';
 import Container from '@/components/Container';
 import MainLayout from '@/components/Layout/MainLayout';
+import ConfirmationModal from '@/components/Modal/ConfirmationModal';
 import CreateCollectionModal from '@/components/Modal/CreateCollectionModal';
 import Heading from '@/components/Text/Heading';
 import CollectionContext from '@/context/collection-context';
@@ -8,13 +9,25 @@ import { mq } from '@/utils/media-query';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useContext, useState } from 'react';
+import { MouseEvent, useContext, useState } from 'react';
 
 const Collections = () => {
-  const { collections, removeAnimeFromCollection } =
-    useContext(CollectionContext);
+  const { collections, deleteCollection } = useContext(CollectionContext);
 
-  const [showModal, setShowModal] = useState(false);
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [deleteId, setDeleteId] = useState('');
+
+  function handleEdit(e: MouseEvent<HTMLElement>) {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log('edit');
+  }
+
+  function handleDelete(e: MouseEvent<HTMLElement>, id: string) {
+    e.preventDefault();
+    e.stopPropagation();
+    setDeleteId(id);
+  }
 
   return (
     <MainLayout>
@@ -24,28 +37,53 @@ const Collections = () => {
           width="250px"
           margin="16px 0 0 0"
           colorType="primary"
-          onClick={() => setShowModal(true)}
+          onClick={() => setShowCreateModal(true)}
         >
           Create new collection
         </Button>
         <CollectionContainer>
           {collections.map((col) => (
             <Link key={col.id} href={`/anime/collections/${col.name}`}>
-              <CollectionCoverImage
-                defaultImage={!col.coverImage}
-                src={col.coverImage || '/images/empty-collection.png'}
-                alt={col.name}
-                width={125}
-                height={175}
-              />
-              <p>{col.name}</p>
+              <CollectionCard>
+                <CollectionCoverImage
+                  src={col.coverImage || '/images/empty-collection.png'}
+                  alt={col.name}
+                  width={150}
+                  height={200}
+                  style={{ objectFit: col.coverImage ? 'cover' : 'contain' }}
+                />
+                <p>{col.name}</p>
+                <Button
+                  colorType="warning"
+                  width="100%"
+                  margin="8px 0"
+                  onClick={handleEdit}
+                >
+                  Edit
+                </Button>
+                <Button
+                  colorType="danger"
+                  width="100%"
+                  onClick={(e) => handleDelete(e, col.id)}
+                >
+                  Remove
+                </Button>
+              </CollectionCard>
             </Link>
           ))}
         </CollectionContainer>
       </Container>
       <CreateCollectionModal
-        show={showModal}
-        onClose={() => setShowModal(false)}
+        show={showCreateModal}
+        onClose={() => setShowCreateModal(false)}
+      />
+      <ConfirmationModal
+        show={!!deleteId}
+        onClose={() => setDeleteId('')}
+        onConfirm={() => {
+          deleteCollection(deleteId);
+          setDeleteId('');
+        }}
       />
     </MainLayout>
   );
@@ -68,12 +106,16 @@ const CollectionContainer = styled.div((props) => ({
   },
 }));
 
-const CollectionCoverImage = styled(Image)(
-  ({ defaultImage }: { defaultImage: boolean }) => ({
-    borderRadius: '8px',
-    backgroundColor: '#ddd',
-    objectFit: defaultImage ? 'contain' : 'cover',
-  })
-);
+const CollectionCard = styled('div')((props) => ({
+  padding: '8px',
+  backgroundColor: '#FCEAEA',
+  borderRadius: '8px',
+}));
+
+const CollectionCoverImage = styled(Image)((props) => ({
+  borderRadius: '8px',
+  backgroundColor: '#ddd',
+  width: '100%',
+}));
 
 export default Collections;
