@@ -18,8 +18,12 @@ const Modal = ({ show, onClose, title, children }: TModalProps) => {
         <ModalHeader>{title}</ModalHeader>
         <ModalBody>{children}</ModalBody>
         <ModalFooter>
-          <Button onClick={onClose}>Submit</Button>
-          <Button onClick={onClose}>Cancel</Button>
+          <Button colorType="primary" onClick={onClose}>
+            Submit
+          </Button>
+          <Button colorType="danger" onClick={onClose}>
+            Cancel
+          </Button>
         </ModalFooter>
       </ModalContent>
     </ModalRoot>

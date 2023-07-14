@@ -1,9 +1,26 @@
 import styled from '@emotion/styled';
 
 type TButtonProps = {
-  bgColor?: string;
-  textColor?: string;
-  hoverColor?: string;
+  colorType: 'primary' | 'danger';
+};
+
+const colorSchemes: {
+  [key: string]: {
+    backgroundColor: string;
+    hoverColor: string;
+    textColor: string;
+  };
+} = {
+  primary: {
+    backgroundColor: '#2b2d42',
+    hoverColor: '#394168',
+    textColor: '#FFFFFF',
+  },
+  danger: {
+    backgroundColor: '#FF4136',
+    hoverColor: '#E71D1D',
+    textColor: '#FFFFFF',
+  },
 };
 
 const Button = styled.button((props: TButtonProps) => ({
@@ -11,13 +28,13 @@ const Button = styled.button((props: TButtonProps) => ({
   fontSize: '16px',
   borderRadius: '8px',
   cursor: 'pointer',
-  backgroundColor: props.bgColor || '#2b2d42',
-  color: props.textColor || 'white',
+  backgroundColor: colorSchemes[props.colorType].backgroundColor,
+  color: colorSchemes[props.colorType].textColor,
   border: 'none',
   transition: 'background-color 0.3s',
 
   '&:hover': {
-    backgroundColor: props.hoverColor || '#394168',
+    backgroundColor: colorSchemes[props.colorType].hoverColor,
   },
 
   '&:disabled': {

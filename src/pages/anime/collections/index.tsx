@@ -15,7 +15,9 @@ const Collections = () => {
   return (
     <MainLayout>
       <h1>Collections</h1>
-      <Button onClick={() => setShowModal(true)}>Add new collection</Button>
+      <Button colorType="primary" onClick={() => setShowModal(true)}>
+        Add new collection
+      </Button>
       <div>
         {collections.map((col) => (
           <Link key={col.id} href={`/anime/collections/${col.name}`}>

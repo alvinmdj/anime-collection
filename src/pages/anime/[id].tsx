@@ -58,7 +58,7 @@ const AnimeDetail = () => {
               ))}
             </div>
             <p>Status: {animeDetail.data.Media?.status}</p>
-            <Button onClick={() => setShowModal(true)}>
+            <Button colorType="primary" onClick={() => setShowModal(true)}>
               Add to Collection
             </Button>
             {getAnimeCollections(animeDetail.data?.Media?.id || -1).map(
