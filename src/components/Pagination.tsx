@@ -10,7 +10,7 @@ const Button = styled.button`
   color: white;
   background-color: #2b2d42;
   padding: 8px 16px;
-  border-radius: 4px;
+  border-radius: 8px;
   border: none;
   cursor: pointer;
   transition: background-color 0.3s;
@@ -26,11 +26,11 @@ const Button = styled.button`
 `;
 
 const PrevButton = styled(Button)`
-  margin-right: 8px;
+  margin-right: 4px;
 `;
 
 const NextButton = styled(Button)`
-  margin-left: 8px;
+  margin-left: 4px;
 `;
 
 type TPaginationProps = {

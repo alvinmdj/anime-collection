@@ -1,6 +1,6 @@
+import { mq } from '@/utils/media-query';
 import styled from '@emotion/styled';
 import { ReactNode } from 'react';
-import Button from '../Button';
 
 type TModalProps = {
   show: boolean;
@@ -17,14 +17,6 @@ const Modal = ({ show, onClose, title, children }: TModalProps) => {
       <ModalContent onClick={(e) => e.stopPropagation()}>
         <ModalHeader>{title}</ModalHeader>
         <ModalBody>{children}</ModalBody>
-        <ModalFooter>
-          <Button colorType="primary" onClick={onClose}>
-            Submit
-          </Button>
-          <Button colorType="danger" onClick={onClose}>
-            Cancel
-          </Button>
-        </ModalFooter>
       </ModalContent>
     </ModalRoot>
   );
@@ -52,13 +44,23 @@ const ModalHeader = styled.div((props) => ({
   padding: '10px',
   textAlign: 'center',
   fontWeight: 'bold',
+  fontSize: '16px',
+  [mq[1]]: {
+    fontSize: '20px',
+  },
+  [mq[2]]: {
+    fontSize: '24px',
+  },
+  [mq[3]]: {
+    fontSize: '28px',
+  },
 }));
 
 const ModalBody = styled.div((props) => ({
   padding: '10px',
 }));
 
-const ModalFooter = styled.div((props) => ({
+export const ModalFooter = styled.div((props) => ({
   display: 'flex',
   padding: '10px',
   gap: '5px',

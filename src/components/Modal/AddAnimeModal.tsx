@@ -2,7 +2,8 @@ import { GetAnimeDetailQuery } from '@/__generated__/graphql';
 import CollectionContext from '@/context/collection-context';
 import { QueryResult } from '@apollo/client';
 import { FormEvent, useContext, useEffect, useState } from 'react';
-import Modal from '.';
+import Modal, { ModalFooter } from '.';
+import Button from '../Button';
 import CreateCollectionModal from './CreateCollectionModal';
 
 type TAddAnimeModalProps = {
@@ -80,8 +81,15 @@ const AddAnimeModal = ({ data, show, onClose }: TAddAnimeModalProps) => {
             </option>
           ))}
         </select>
-        <button>Add to collection</button>
         {error && <p>{error}</p>}
+        <ModalFooter>
+          <Button colorType="primary" type="submit">
+            Add
+          </Button>
+          <Button colorType="danger" type="button" onClick={onClose}>
+            Cancel
+          </Button>
+        </ModalFooter>
       </form>
     </Modal>
   );

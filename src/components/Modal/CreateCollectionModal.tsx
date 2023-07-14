@@ -1,7 +1,8 @@
 import CollectionContext from '@/context/collection-context';
 import { regexCollectionNameValidation } from '@/utils/regex';
 import { FormEvent, useContext, useState } from 'react';
-import Modal from '.';
+import Modal, { ModalFooter } from '.';
+import Button from '../Button';
 
 type TCreateCollectionModalProps = {
   show: boolean;
@@ -45,6 +46,14 @@ const CreateCollectionModal = ({
         />
         <button>Create new collection</button>
         {error && <p>{error}</p>}
+        <ModalFooter>
+          <Button colorType="primary" onClick={onClose}>
+            Submit
+          </Button>
+          <Button colorType="danger" onClick={onClose}>
+            Cancel
+          </Button>
+        </ModalFooter>
       </form>
     </Modal>
   );

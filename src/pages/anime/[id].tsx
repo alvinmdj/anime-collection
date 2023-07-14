@@ -1,3 +1,4 @@
+import Badge from '@/components/Badge';
 import Button from '@/components/Button';
 import Container from '@/components/Container';
 import MainLayout from '@/components/Layout/MainLayout';
@@ -9,6 +10,7 @@ import { mq } from '@/utils/media-query';
 import { useQuery } from '@apollo/client';
 import styled from '@emotion/styled';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
 
@@ -38,36 +40,71 @@ const AnimeDetail = () => {
             height={0}
             sizes="100vw"
           />
-          <Container margin="20px 0">
-            <Heading>
-              {animeDetail.data?.Media?.title?.romaji ||
-                animeDetail.data?.Media?.title?.english ||
-                animeDetail.data?.Media?.title?.native}
-            </Heading>
-            <div
-              dangerouslySetInnerHTML={{
-                __html: animeDetail.data?.Media?.description || '',
-              }}
-            />
-            <p>Total episode: {animeDetail.data.Media?.episodes}</p>
-            <p>Overall score: {animeDetail.data.Media?.averageScore}</p>
-            <div>
+          <Container margin="20px 0" padding="0 5%">
+            <AnimeTopContainer>
+              <CoverImage
+                src={animeDetail.data.Media?.coverImage?.large || ''}
+                alt={animeDetail.data.Media?.title?.english || ''}
+                width={180}
+                height={250}
+              />
+              <FlexWrapper>
+                <Heading>
+                  {animeDetail.data?.Media?.title?.romaji ||
+                    animeDetail.data?.Media?.title?.english ||
+                    animeDetail.data?.Media?.title?.native}
+                </Heading>
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: animeDetail.data?.Media?.description || '',
+                  }}
+                />
+              </FlexWrapper>
+            </AnimeTopContainer>
+            <AnimeGenres>
               <p>Genres:</p>
-              {animeDetail.data.Media?.genres?.map((genre) => (
-                <p key={genre}>{genre}</p>
-              ))}
-            </div>
-            <p>Status: {animeDetail.data.Media?.status}</p>
+              <FlexWrapper gap="6px">
+                {animeDetail.data.Media?.genres?.map((genre) => (
+                  <Badge key={genre}>{genre}</Badge>
+                ))}
+              </FlexWrapper>
+            </AnimeGenres>
+            <AnimeBottomContainer>
+              <p>
+                <strong>Status:</strong>{' '}
+                {animeDetail.data.Media?.status || 'Currently not available'}
+              </p>
+              <p>
+                <strong>Total episode:</strong>{' '}
+                {animeDetail.data.Media?.episodes || 'Currently not available'}
+              </p>
+              <p>
+                <strong>Overall score:</strong>{' '}
+                {animeDetail.data.Media?.averageScore ||
+                  'Currently not available'}
+              </p>
+            </AnimeBottomContainer>
             <Button colorType="primary" onClick={() => setShowModal(true)}>
               Add to Collection
             </Button>
-            {getAnimeCollections(animeDetail.data?.Media?.id || -1).map(
-              (col) => (
-                <div key={col.id}>
-                  <p>{col.name}</p>
-                </div>
-              )
-            )}
+            <AnimeCollection>
+              <strong>Anime saved in these collections:</strong>
+              <FlexWrapper>
+                {getAnimeCollections(animeDetail.data?.Media?.id || -1).map(
+                  (col) => (
+                    <Link key={col.id} href={`/anime/collections/${col.id}`}>
+                      <CoverImage
+                        src={col.coverImage || '/images/empty-collection.png'}
+                        alt={col.name}
+                        width={125}
+                        height={175}
+                      />
+                      <p>{col.name}</p>
+                    </Link>
+                  )
+                )}
+              </FlexWrapper>
+            </AnimeCollection>
             <AddAnimeModal
               data={animeDetail.data}
               show={showModal}
@@ -90,6 +127,58 @@ const BannerImage = styled(Image)((props) => ({
   [mq[3]]: {
     height: '300px',
   },
+}));
+
+const CoverImage = styled(Image)((props) => ({
+  borderRadius: '8px',
+}));
+
+const AnimeTopContainer = styled('div')((props) => ({
+  backgroundColor: '#F2F3F4',
+  padding: '12px',
+  borderRadius: '8px',
+  display: 'flex',
+  flexWrap: 'wrap',
+  justifyContent: 'center',
+  gap: '12px',
+  [mq[0]]: {
+    flexWrap: 'nowrap',
+  },
+}));
+
+const AnimeGenres = styled('div')((props) => ({
+  fontWeight: 'bold',
+  display: 'flex',
+  gap: '8px',
+  alignItems: 'center',
+  backgroundColor: '#E9F7EF',
+  padding: '12px',
+  borderRadius: '8px',
+  marginTop: '8px',
+}));
+
+const AnimeBottomContainer = styled('div')((props) => ({
+  backgroundColor: '#E5F2FF',
+  padding: '12px',
+  borderRadius: '8px',
+  gap: '12px',
+  margin: '8px 0',
+}));
+
+const AnimeCollection = styled('div')((props) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  backgroundColor: '#FCEAEA',
+  padding: '12px',
+  borderRadius: '8px',
+  gap: '12px',
+  margin: '8px 0',
+}));
+
+const FlexWrapper = styled('div')(({ gap }: { gap?: string }) => ({
+  display: 'flex',
+  flexWrap: 'wrap',
+  gap: gap || '12px',
 }));
 
 export default AnimeDetail;

@@ -3,10 +3,12 @@ import styled from '@emotion/styled';
 
 type TContainerProps = {
   margin?: string;
+  padding?: string;
 };
 
 const Container = styled.div((props: TContainerProps) => ({
   margin: props.margin,
+  padding: props.padding,
   maxWidth: '500px',
   display: 'flex',
   flexDirection: 'column',
