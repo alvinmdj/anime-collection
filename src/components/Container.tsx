@@ -1,15 +1,16 @@
 import { mq } from '@/utils/media-query';
 import styled from '@emotion/styled';
 
-const Container = styled.div((props) => ({
-  margin: '10px',
+type TContainerProps = {
+  margin?: string;
+};
+
+const Container = styled.div((props: TContainerProps) => ({
+  margin: props.margin,
   maxWidth: '500px',
   display: 'flex',
   flexDirection: 'column',
   marginInline: 'auto',
-  // [mq[0]]: {
-  //   maxWidth: '700px',
-  // },
   [mq[1]]: {
     maxWidth: '700px',
   },

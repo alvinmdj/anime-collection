@@ -1,6 +1,7 @@
 import { MediaSort } from '@/__generated__/graphql';
 import AnimeCard from '@/components/Anime/AnimeCard';
 import AnimeListContainer from '@/components/Anime/AnimeListContainer';
+import Container from '@/components/Container';
 import Layout from '@/components/Layout/MainLayout';
 import Pagination from '@/components/Pagination';
 import Heading from '@/components/Text/Heading';
@@ -44,24 +45,26 @@ export default function Home() {
   return (
     <>
       <Layout>
-        <Heading>All-Time Popular Anime</Heading>
-        <AnimeListContainer>
-          {anime.loading && <p>Loading...</p>}
-          {anime.error && <p>Error!</p>}
-          {anime.data?.Page?.media?.map((m) => (
-            <AnimeCard
-              key={m?.id}
-              id={m!.id}
-              title={m?.title}
-              coverImage={m?.coverImage}
-            />
-          ))}
-        </AnimeListContainer>
-        <Pagination
-          handlePagination={handlePagination}
-          currentPage={anime.data?.Page?.pageInfo?.currentPage || 1}
-          hasNextPage={anime.data?.Page?.pageInfo?.hasNextPage || false}
-        />
+        <Container margin="20px 0">
+          <Heading textCenter>All-Time Popular Anime</Heading>
+          <AnimeListContainer>
+            {anime.loading && <p>Loading...</p>}
+            {anime.error && <p>Error!</p>}
+            {anime.data?.Page?.media?.map((m) => (
+              <AnimeCard
+                key={m?.id}
+                id={m!.id}
+                title={m?.title}
+                coverImage={m?.coverImage}
+              />
+            ))}
+          </AnimeListContainer>
+          <Pagination
+            handlePagination={handlePagination}
+            currentPage={anime.data?.Page?.pageInfo?.currentPage || 1}
+            hasNextPage={anime.data?.Page?.pageInfo?.hasNextPage || false}
+          />
+        </Container>
       </Layout>
     </>
   );

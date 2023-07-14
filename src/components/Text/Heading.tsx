@@ -1,8 +1,12 @@
 import { mq } from '@/utils/media-query';
 import styled from '@emotion/styled';
 
-const Heading = styled.h1((props) => ({
-  textAlign: 'center',
+type THeadingProps = {
+  textCenter?: boolean;
+};
+
+const Heading = styled.h1((props: THeadingProps) => ({
+  textAlign: props.textCenter ? 'center' : 'unset',
   fontSize: '20px',
   [mq[1]]: {
     fontSize: '24px',

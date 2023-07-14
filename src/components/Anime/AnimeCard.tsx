@@ -42,8 +42,8 @@ const AnimeCard = (
           }}
         />
         <AnimeCardTitle>
-          {props?.title?.english ||
-            props?.title?.romaji ||
+          {props?.title?.romaji ||
+            props?.title?.english ||
             props?.title?.native}
         </AnimeCardTitle>
       </AnimeCardDiv>

@@ -8,7 +8,7 @@ const PaginationContainer = styled.div`
 
 const Button = styled.button`
   color: white;
-  background-color: darkblue;
+  background-color: #2b2d42;
   padding: 8px 16px;
   border-radius: 4px;
   border: none;
@@ -16,7 +16,7 @@ const Button = styled.button`
   transition: background-color 0.3s;
 
   &:hover {
-    background-color: navy;
+    background-color: #394168;
   }
 
   &:disabled {

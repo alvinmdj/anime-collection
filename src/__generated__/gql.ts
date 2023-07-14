@@ -14,7 +14,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     "\n  query GetAnimeList($page: Int, $perPage: Int, $sort: [MediaSort]) {\n    Page(page: $page, perPage: $perPage) {\n      pageInfo {\n        total\n        currentPage\n        lastPage\n        hasNextPage\n        perPage\n      }\n      # Define which variables will be used in the query (id)\n      media(type: ANIME, sort: $sort) {\n        # Insert our variables into the query arguments (id) (type: ANIME is hard-coded in the query)\n        id\n        title {\n          romaji\n          english\n          native\n        }\n        coverImage {\n          large\n        }\n      }\n    }\n  }\n": types.GetAnimeListDocument,
-    "\n  query GetAnimeDetail($id: Int!) {\n    Media (id: $id, type: ANIME) { # Insert our variables into the query arguments (id) (type: ANIME is hard-coded in the query)\n      id\n      title {\n        romaji\n        english\n        native\n      }\n      description\n      bannerImage\n      episodes\n      coverImage {\n        large\n      }\n    }\n  }\n": types.GetAnimeDetailDocument,
+    "\n  query GetAnimeDetail($id: Int!) {\n    Media (id: $id, type: ANIME) { # Insert our variables into the query arguments (id) (type: ANIME is hard-coded in the query)\n      id\n      title {\n        romaji\n        english\n        native\n      }\n      description\n      bannerImage\n      coverImage {\n        large\n      }\n      episodes\n      genres\n      averageScore\n      status\n    }\n  }\n": types.GetAnimeDetailDocument,
 };
 
 /**
@@ -38,7 +38,7 @@ export function gql(source: "\n  query GetAnimeList($page: Int, $perPage: Int, $
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  query GetAnimeDetail($id: Int!) {\n    Media (id: $id, type: ANIME) { # Insert our variables into the query arguments (id) (type: ANIME is hard-coded in the query)\n      id\n      title {\n        romaji\n        english\n        native\n      }\n      description\n      bannerImage\n      episodes\n      coverImage {\n        large\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetAnimeDetail($id: Int!) {\n    Media (id: $id, type: ANIME) { # Insert our variables into the query arguments (id) (type: ANIME is hard-coded in the query)\n      id\n      title {\n        romaji\n        english\n        native\n      }\n      description\n      bannerImage\n      episodes\n      coverImage {\n        large\n      }\n    }\n  }\n"];
+export function gql(source: "\n  query GetAnimeDetail($id: Int!) {\n    Media (id: $id, type: ANIME) { # Insert our variables into the query arguments (id) (type: ANIME is hard-coded in the query)\n      id\n      title {\n        romaji\n        english\n        native\n      }\n      description\n      bannerImage\n      coverImage {\n        large\n      }\n      episodes\n      genres\n      averageScore\n      status\n    }\n  }\n"): (typeof documents)["\n  query GetAnimeDetail($id: Int!) {\n    Media (id: $id, type: ANIME) { # Insert our variables into the query arguments (id) (type: ANIME is hard-coded in the query)\n      id\n      title {\n        romaji\n        english\n        native\n      }\n      description\n      bannerImage\n      coverImage {\n        large\n      }\n      episodes\n      genres\n      averageScore\n      status\n    }\n  }\n"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};

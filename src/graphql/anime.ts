@@ -38,10 +38,13 @@ export const GET_ANIME_DETAIL = gql(`
       }
       description
       bannerImage
-      episodes
       coverImage {
         large
       }
+      episodes
+      genres
+      averageScore
+      status
     }
   }
 `);

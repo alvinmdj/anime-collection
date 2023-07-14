@@ -1,7 +1,6 @@
 import { Inter } from 'next/font/google';
 import Head from 'next/head';
 import { ReactNode } from 'react';
-import Container from '../Container';
 import Header from './Header';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -16,7 +15,7 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <Container className={`${inter.className}`}>{children}</Container>
+      <main className={`${inter.className}`}>{children}</main>
     </>
   );
 };
