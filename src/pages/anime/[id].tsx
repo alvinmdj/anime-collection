@@ -109,12 +109,12 @@ const AnimeDetail = () => {
                 <p>None</p>
               )}
             </AnimeCollection>
-            <AddAnimeModal
-              data={animeDetail.data}
-              show={showModal}
-              onClose={() => setShowModal(false)}
-            />
           </Container>
+          <AddAnimeModal
+            data={animeDetail.data}
+            show={showModal}
+            onClose={() => setShowModal(false)}
+          />
         </>
       )}
     </MainLayout>

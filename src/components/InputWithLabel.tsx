@@ -5,6 +5,7 @@ const InputContainer = styled.div((props) => ({
   display: 'flex',
   flexDirection: 'column',
   gap: '4px',
+  paddingInline: '10px',
 }));
 
 const InputLabel = styled.label((props) => ({

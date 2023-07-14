@@ -2,6 +2,8 @@ import styled from '@emotion/styled';
 
 type TButtonProps = {
   colorType: 'primary' | 'danger';
+  width?: string;
+  margin?: string;
 };
 
 const colorSchemes: {
@@ -24,6 +26,8 @@ const colorSchemes: {
 };
 
 const Button = styled.button((props: TButtonProps) => ({
+  width: props.width,
+  margin: props.margin,
   padding: '10px 20px',
   fontSize: '16px',
   borderRadius: '8px',
