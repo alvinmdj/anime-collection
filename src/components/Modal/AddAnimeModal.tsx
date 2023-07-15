@@ -4,6 +4,7 @@ import { QueryResult } from '@apollo/client';
 import { FormEvent, useContext, useEffect, useState } from 'react';
 import Modal, { ModalFooter } from '.';
 import Button from '../Button';
+import SelectWithLabel from '../SelectWithLabel';
 import ErrorMessage from '../Text/ErrorMessage';
 import CreateCollectionModal from './CreateCollectionModal';
 
@@ -68,8 +69,8 @@ const AddAnimeModal = ({ data, show, onClose }: TAddAnimeModalProps) => {
   return (
     <Modal show={show} onClose={onClose} title="Add to collection">
       <form onSubmit={handleSubmit}>
-        <label>Choose a collection:</label>
-        <select
+        <SelectWithLabel
+          label="Choose a collection"
           defaultValue=""
           onChange={(e) => setCollectionId(e.target.value)}
         >
@@ -81,7 +82,7 @@ const AddAnimeModal = ({ data, show, onClose }: TAddAnimeModalProps) => {
               {col.name}
             </option>
           ))}
-        </select>
+        </SelectWithLabel>
         {error && <ErrorMessage>{error}</ErrorMessage>}
         <ModalFooter>
           <Button colorType="primary" type="submit">
