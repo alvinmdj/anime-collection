@@ -17,16 +17,18 @@ const CollectionDetail = () => {
 
   const [editName, setEditName] = useState('');
   const [deleteId, setDeleteId] = useState(0);
+  const [selectedAnimeTitle, setSelectedAnimeTitle] = useState('');
 
   const { getCollectionData, removeAnimeFromCollection } =
     useContext(CollectionContext);
 
   const collectionData = getCollectionData(router.query.id?.toString() || '');
 
-  function handleDelete(e: MouseEvent<HTMLElement>, id: number) {
+  function handleDelete(e: MouseEvent<HTMLElement>, id: number, title: string) {
     e.preventDefault();
     e.stopPropagation();
     setDeleteId(id);
+    setSelectedAnimeTitle(title);
   }
 
   return (
@@ -34,7 +36,7 @@ const CollectionDetail = () => {
       <Container margin="20px 0">
         {collectionData ? (
           <>
-            <Heading textCenter margin="0 0 20px 0">
+            <Heading textCenter>
               Anime in{' '}
               <span style={{ color: 'darkblue' }}>{collectionData.name}</span>
             </Heading>
@@ -66,7 +68,7 @@ const CollectionDetail = () => {
                         margin="auto 0 0 0"
                         colorType="danger"
                         width="100%"
-                        onClick={(e) => handleDelete(e, ani.id)}
+                        onClick={(e) => handleDelete(e, ani.id, ani.title)}
                       >
                         Remove
                       </Button>
@@ -82,7 +84,7 @@ const CollectionDetail = () => {
               onClose={() => setEditName('')}
             />
             <ConfirmationModal
-              title="Confirm remove this anime from collection"
+              title={`Confirm remove '${selectedAnimeTitle}' from collection`}
               show={!!deleteId}
               onClose={() => setDeleteId(0)}
               onConfirm={() => {

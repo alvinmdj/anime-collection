@@ -18,6 +18,7 @@ const Collections = () => {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [editName, setEditName] = useState('');
   const [deleteId, setDeleteId] = useState('');
+  const [selectedCollectionName, setSelectedCollectionName] = useState('');
 
   function handleEdit(e: MouseEvent<HTMLElement>, name: string) {
     e.preventDefault();
@@ -25,10 +26,11 @@ const Collections = () => {
     setEditName(name);
   }
 
-  function handleDelete(e: MouseEvent<HTMLElement>, id: string) {
+  function handleDelete(e: MouseEvent<HTMLElement>, id: string, name: string) {
     e.preventDefault();
     e.stopPropagation();
     setDeleteId(id);
+    setSelectedCollectionName(name);
   }
 
   return (
@@ -69,7 +71,7 @@ const Collections = () => {
                   <Button
                     colorType="danger"
                     width="100%"
-                    onClick={(e) => handleDelete(e, col.id)}
+                    onClick={(e) => handleDelete(e, col.id, col.name)}
                   >
                     Remove
                   </Button>
@@ -93,6 +95,7 @@ const Collections = () => {
       />
       <ConfirmationModal
         show={!!deleteId}
+        title={`Confirm delete ${selectedCollectionName}`}
         onClose={() => setDeleteId('')}
         onConfirm={() => {
           deleteCollection(deleteId);
