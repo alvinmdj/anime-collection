@@ -30,6 +30,17 @@ const CollectionContextProvider = ({ children }: { children: ReactNode }) => {
     setCollections((prevState) => [...prevState, { id, name, coverImage }]);
   }
 
+  function updateCollection(oldName: string, newName: string) {
+    setCollections((prevState) =>
+      prevState.map((col) => {
+        if (col.name === oldName) {
+          return { ...col, name: newName };
+        }
+        return col;
+      })
+    );
+  }
+
   function deleteCollection(collectionId: string) {
     // delete all anime from this collection
     setAnime((prevState) => {
@@ -123,6 +134,7 @@ const CollectionContextProvider = ({ children }: { children: ReactNode }) => {
       value={{
         collections,
         createCollection,
+        updateCollection,
         deleteCollection,
         isAnimeInCollection,
         getAnimeCollections,

@@ -3,6 +3,7 @@ import Container from '@/components/Container';
 import MainLayout from '@/components/Layout/MainLayout';
 import ConfirmationModal from '@/components/Modal/ConfirmationModal';
 import CreateCollectionModal from '@/components/Modal/CreateCollectionModal';
+import EditCollectionModal from '@/components/Modal/EditCollectionModal';
 import Heading from '@/components/Text/Heading';
 import CollectionContext from '@/context/collection-context';
 import { mq } from '@/utils/media-query';
@@ -15,12 +16,13 @@ const Collections = () => {
   const { collections, deleteCollection } = useContext(CollectionContext);
 
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [editName, setEditName] = useState('');
   const [deleteId, setDeleteId] = useState('');
 
-  function handleEdit(e: MouseEvent<HTMLElement>) {
+  function handleEdit(e: MouseEvent<HTMLElement>, name: string) {
     e.preventDefault();
     e.stopPropagation();
-    console.log('edit');
+    setEditName(name);
   }
 
   function handleDelete(e: MouseEvent<HTMLElement>, id: string) {
@@ -57,7 +59,7 @@ const Collections = () => {
                   colorType="warning"
                   width="100%"
                   margin="8px 0"
-                  onClick={handleEdit}
+                  onClick={(e) => handleEdit(e, col.name)}
                 >
                   Edit
                 </Button>
@@ -76,6 +78,10 @@ const Collections = () => {
       <CreateCollectionModal
         show={showCreateModal}
         onClose={() => setShowCreateModal(false)}
+      />
+      <EditCollectionModal
+        collectionName={editName}
+        onClose={() => setEditName('')}
       />
       <ConfirmationModal
         show={!!deleteId}

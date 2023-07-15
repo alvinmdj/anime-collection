@@ -20,6 +20,7 @@ type TCollectionContext = {
     coverImage?: string,
     anime?: TAnime[]
   ) => void;
+  updateCollection: (oldName: string, newName: string) => void;
   deleteCollection: (id: string) => void;
   isAnimeInCollection: (animeId: number, collectionId: string) => boolean;
   getAnimeCollections: (animeId: number) => TCollection[];

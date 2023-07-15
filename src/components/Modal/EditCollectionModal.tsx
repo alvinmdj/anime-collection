@@ -6,55 +6,63 @@ import Button from '../Button';
 import InputWithLabel from '../InputWithLabel';
 import ErrorMessage from '../Text/ErrorMessage';
 
-type TCreateCollectionModalProps = {
-  show: boolean;
+type TEditCollectionModalProps = {
+  collectionName: string;
   onClose: () => void;
   title?: string;
 };
 
-const CreateCollectionModal = ({
-  show,
+const EditCollectionModal = ({
+  collectionName,
   onClose,
   title,
-}: TCreateCollectionModalProps) => {
-  const { collections, createCollection } = useContext(CollectionContext);
+}: TEditCollectionModalProps) => {
+  const { collections, updateCollection } = useContext(CollectionContext);
 
-  const [name, setName] = useState('');
+  const [newName, setNewName] = useState(collectionName);
   const [error, setError] = useState('');
 
   useEffect(() => {
     setError('');
-    setName('');
-  }, [show]);
+    setNewName(collectionName);
+  }, [collectionName]);
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    if (!name.trim().length) {
+    if (!newName.trim().length) {
       setError('Name must not be empty');
       return;
     }
-    if (!regexCollectionNameValidation.test(name.trim())) {
+    if (!regexCollectionNameValidation.test(newName.trim())) {
       setError('Name must not contain special character(s)');
       return;
     }
-    if (collections.find((col) => col.name === name)) {
+
+    // check if new name is already used & not by the current collection
+    if (
+      collections.find(
+        (col) => col.name === newName && col.name !== collectionName
+      )
+    ) {
       setError('Collection with this name already exists');
       return;
     }
-    createCollection(name);
-    setName('');
-    setError('');
+    updateCollection(collectionName, newName);
     onClose();
   }
 
   return (
-    <Modal show={show} onClose={onClose} title={title || 'Create Collection'}>
+    <Modal
+      show={!!collectionName}
+      onClose={onClose}
+      title={title || 'Edit Collection'}
+    >
       <form onSubmit={handleSubmit}>
         <InputWithLabel
           label="Name"
           type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          value={newName}
+          onChange={(e) => setNewName(e.target.value)}
         />
         {error && <ErrorMessage>{error}</ErrorMessage>}
         <ModalFooter>
@@ -70,4 +78,4 @@ const CreateCollectionModal = ({
   );
 };
 
-export default CreateCollectionModal;
+export default EditCollectionModal;

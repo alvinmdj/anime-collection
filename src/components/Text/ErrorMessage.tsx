@@ -9,6 +9,7 @@ const ErrorMessageText = styled.p((props) => ({
   color: '#ff0000',
   fontSize: '14px',
   marginTop: '8px',
+  marginInline: '10px',
 }));
 
 const ErrorMessage = ({ children }: TErrorMessageProps) => {
