@@ -77,7 +77,9 @@ const CollectionDetail = () => {
                 ))}
               </AnimeListContainer>
             ) : (
-              <p style={{ textAlign: 'center' }}>No anime in this collection</p>
+              <p style={{ textAlign: 'center', marginTop: '8px' }}>
+                No anime in this collection
+              </p>
             )}
             <EditCollectionModal
               collectionName={editName}
