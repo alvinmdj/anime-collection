@@ -31,7 +31,7 @@ const CollectionDetail = () => {
 
   return (
     <MainLayout>
-      <Container margin="20px 0" padding="0 5%">
+      <Container margin="20px 0">
         {collectionData ? (
           <>
             <Heading textCenter margin="0 0 20px 0">
@@ -39,7 +39,7 @@ const CollectionDetail = () => {
             </Heading>
             <Button
               width="250px"
-              margin="16px 0 0 0"
+              margin="16px 5% 0 5%"
               colorType="primary"
               onClick={() => setEditName(collectionData.name)}
             >
@@ -58,6 +58,7 @@ const CollectionDetail = () => {
                       />
                       <p>{ani.title}</p>
                       <Button
+                        margin="8px 0 0 0"
                         colorType="danger"
                         width="100%"
                         onClick={(e) => handleDelete(e, ani.id)}
@@ -66,13 +67,6 @@ const CollectionDetail = () => {
                       </Button>
                     </AnimeCollectionCard>
                   </Link>
-                  // // TODO: CREATE A NEW COMPONENT, WE NEED A REMOVE ANIME BUTTON
-                  // <AnimeCard
-                  //   key={ani.id}
-                  //   id={ani.id}
-                  //   title={ani.title}
-                  //   coverImage={ani.coverImage}
-                  // />
                 ))}
               </AnimeListContainer>
             ) : (
@@ -113,6 +107,8 @@ const AnimeCollectionCoverImage = styled(Image)((props) => ({
   borderRadius: '8px',
   backgroundColor: '#ddd',
   width: '100%',
+  objectFit: 'cover',
+  marginBottom: '8px',
 }));
 
 export default CollectionDetail;
