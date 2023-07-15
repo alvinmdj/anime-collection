@@ -58,7 +58,7 @@ const AddAnimeModal = ({ data, show, onClose }: TAddAnimeModalProps) => {
   if (!collections.length) {
     return (
       <CreateCollectionModal
-        title="Please create a collection name before proceeds"
+        title="Please create a collection before proceeds"
         show={show}
         onClose={onClose}
       />

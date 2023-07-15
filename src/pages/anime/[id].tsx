@@ -41,6 +41,7 @@ const AnimeDetail = () => {
             width={0}
             height={0}
             sizes="100vw"
+            priority
           />
           <Container margin="20px 0" padding="0 5%">
             <AnimeTopContainer>

@@ -35,7 +35,8 @@ const CollectionDetail = () => {
         {collectionData ? (
           <>
             <Heading textCenter margin="0 0 20px 0">
-              {collectionData.name}
+              Anime in{' '}
+              <span style={{ color: 'darkblue' }}>{collectionData.name}</span>
             </Heading>
             <Button
               width="250px"
@@ -56,9 +57,13 @@ const CollectionDetail = () => {
                         width={150}
                         height={200}
                       />
-                      <p>{ani.title}</p>
+                      <p
+                        style={{ marginBottom: '8px', wordBreak: 'break-word' }}
+                      >
+                        {ani.title}
+                      </p>
                       <Button
-                        margin="8px 0 0 0"
+                        margin="auto 0 0 0"
                         colorType="danger"
                         width="100%"
                         onClick={(e) => handleDelete(e, ani.id)}
@@ -101,6 +106,9 @@ const AnimeCollectionCard = styled('div')((props) => ({
   padding: '8px',
   backgroundColor: '#FCEAEA',
   borderRadius: '8px',
+  height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
 }));
 
 const AnimeCollectionCoverImage = styled(Image)((props) => ({

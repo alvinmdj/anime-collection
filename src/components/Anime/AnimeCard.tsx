@@ -38,6 +38,7 @@ const AnimeCard = ({ id, title, coverImage }: TAnimeCardProps) => {
             objectFit: 'cover',
             borderRadius: '8px',
           }}
+          priority
         />
         <AnimeCardTitle>{title}</AnimeCardTitle>
       </AnimeCardDiv>

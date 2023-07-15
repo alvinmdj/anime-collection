@@ -54,11 +54,13 @@ const Collections = () => {
                   height={200}
                   style={{ objectFit: col.coverImage ? 'cover' : 'contain' }}
                 />
-                <p>{col.name}</p>
+                <p style={{ marginBottom: '8px', wordBreak: 'break-word' }}>
+                  {col.name}
+                </p>
                 <Button
                   colorType="warning"
                   width="100%"
-                  margin="8px 0"
+                  margin="auto 0 0 0"
                   onClick={(e) => handleEdit(e, col.name)}
                 >
                   Edit
@@ -98,7 +100,6 @@ const Collections = () => {
 const CollectionContainer = styled.div((props) => ({
   marginTop: '20px',
   display: 'grid',
-  alignItems: 'center',
   gap: '20px',
   gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
   [mq[0]]: {
@@ -116,6 +117,10 @@ const CollectionCard = styled('div')((props) => ({
   padding: '8px',
   backgroundColor: '#FCEAEA',
   borderRadius: '8px',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '4px',
+  height: '100%',
 }));
 
 const CollectionCoverImage = styled(Image)((props) => ({
