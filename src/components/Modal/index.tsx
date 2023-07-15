@@ -3,13 +3,22 @@ import styled from '@emotion/styled';
 import { ReactNode, useEffect } from 'react';
 
 type TModalProps = {
+  width?: string;
+  height?: string;
   show: boolean;
   onClose: () => void;
   title: string;
   children: ReactNode;
 };
 
-const Modal = ({ show, onClose, title, children }: TModalProps) => {
+const Modal = ({
+  width,
+  height,
+  show,
+  onClose,
+  title,
+  children,
+}: TModalProps) => {
   useEffect(() => {
     document.body.style.overflow = show ? 'hidden' : '';
   }, [show]);
@@ -18,7 +27,11 @@ const Modal = ({ show, onClose, title, children }: TModalProps) => {
 
   return (
     <ModalRoot onClick={onClose}>
-      <ModalContent onClick={(e) => e.stopPropagation()}>
+      <ModalContent
+        width={width}
+        height={height}
+        onClick={(e) => e.stopPropagation()}
+      >
         <ModalHeader>{title}</ModalHeader>
         <ModalBody>{children}</ModalBody>
       </ModalContent>
@@ -38,11 +51,14 @@ const ModalRoot = styled.div((props) => ({
   justifyContent: 'center',
 }));
 
-const ModalContent = styled.div((props) => ({
-  width: '500px',
-  background: '#FFF',
-  borderRadius: '8px',
-}));
+const ModalContent = styled.div(
+  (props: { width?: string; height?: string }) => ({
+    width: props.width || '500px',
+    height: props.height,
+    background: '#FFF',
+    borderRadius: '8px',
+  })
+);
 
 const ModalHeader = styled.div((props) => ({
   padding: '10px',

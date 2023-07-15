@@ -1,22 +1,26 @@
 import { MediaSort } from '@/__generated__/graphql';
 import AnimeCard from '@/components/Anime/AnimeCard';
 import AnimeListContainer from '@/components/Anime/AnimeListContainer';
+import Button from '@/components/Button';
 import Container from '@/components/Container';
 import Layout from '@/components/Layout/MainLayout';
 import Pagination from '@/components/Pagination';
 import Heading from '@/components/Text/Heading';
 import { GET_ANIME_LIST } from '@/graphql/anime';
 import { useQuery } from '@apollo/client';
-import { Inter } from 'next/font/google';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
-const inter = Inter({ subsets: ['latin'] });
+const BulkAddAnimeModal = dynamic(
+  () => import('@/components/Modal/BulkAddAnimeModal')
+);
 
 export default function Home() {
   const router = useRouter();
 
   const [page, setPage] = useState(1);
+  const [showBulkAddModal, setShowBulkAddModal] = useState(false);
 
   const anime = useQuery(GET_ANIME_LIST, {
     variables: {
@@ -49,6 +53,13 @@ export default function Home() {
           <Heading textCenter margin="0 0 20px 0">
             All-Time Popular Anime
           </Heading>
+          <Button
+            margin="0 5% 10px 5%"
+            colorType="primary"
+            onClick={() => setShowBulkAddModal(true)}
+          >
+            Bulk Add Anime to Collection
+          </Button>
           <AnimeListContainer>
             {anime.loading && <p>Loading...</p>}
             {anime.error && <p>Error!</p>}
@@ -72,6 +83,10 @@ export default function Home() {
             hasNextPage={anime.data?.Page?.pageInfo?.hasNextPage || false}
           />
         </Container>
+        <BulkAddAnimeModal
+          show={showBulkAddModal}
+          onClose={() => setShowBulkAddModal(false)}
+        />
       </Layout>
     </>
   );

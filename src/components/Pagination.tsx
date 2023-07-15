@@ -51,12 +51,14 @@ const Pagination = ({
   return (
     <PaginationContainer>
       <PrevButton
+        type="button"
         disabled={currentPage === 1}
         onClick={() => handlePagination('PREV')}
       >
         Prev
       </PrevButton>
       <NextButton
+        type="button"
         disabled={!hasNextPage}
         onClick={() => handlePagination('NEXT')}
       >
