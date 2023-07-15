@@ -2,17 +2,19 @@ import Modal, { ModalFooter } from '.';
 import Button from '../Button';
 
 type TConfirmationModalProps = {
+  title?: string;
   onConfirm: () => void;
   show: boolean;
   onClose: () => void;
 };
 
 const ConfirmationModal = ({
+  title,
   onConfirm,
   show,
   onClose,
 }: TConfirmationModalProps) => (
-  <Modal show={show} onClose={onClose} title="Confirm Delete">
+  <Modal show={show} onClose={onClose} title={title || 'Confirm Delete'}>
     <ModalFooter>
       <Button
         colorType="primary"
