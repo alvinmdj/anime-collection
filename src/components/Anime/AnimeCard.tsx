@@ -2,19 +2,6 @@ import styled from '@emotion/styled';
 import Image from 'next/image';
 import Link from 'next/link';
 
-const AnimeCardDiv = styled.div((props) => ({
-  borderRadius: '8px',
-  fontSize: '14px',
-  fontWeight: 'bold',
-}));
-
-const AnimeCardTitle = styled.p((props) => ({
-  display: '-webkit-box',
-  WebkitLineClamp: '2',
-  WebkitBoxOrient: 'vertical',
-  overflow: 'hidden',
-}));
-
 type TAnimeCardProps = {
   id: number;
   title: string;
@@ -24,20 +11,13 @@ type TAnimeCardProps = {
 const AnimeCard = ({ id, title, coverImage }: TAnimeCardProps) => {
   return (
     <Link href={`/anime/${id}`}>
-      <AnimeCardDiv>
-        <Image
+      <AnimeCardDiv title={title}>
+        <AnimeCardImage
           src={coverImage}
           alt={title}
-          width={75}
-          height={150}
+          width={150}
+          height={225}
           sizes="100vw"
-          style={{
-            width: '100%',
-            height: 'auto',
-            minHeight: '100%',
-            objectFit: 'cover',
-            borderRadius: '8px',
-          }}
           priority
         />
         <AnimeCardTitle>{title}</AnimeCardTitle>
@@ -45,5 +25,26 @@ const AnimeCard = ({ id, title, coverImage }: TAnimeCardProps) => {
     </Link>
   );
 };
+
+const AnimeCardDiv = styled.div((props) => ({
+  borderRadius: '8px',
+  fontSize: '14px',
+  fontWeight: 'bold',
+}));
+
+const AnimeCardImage = styled(Image)((props) => ({
+  width: '100%',
+  height: 'auto',
+  aspectRatio: '2/3',
+  objectFit: 'cover',
+  borderRadius: '8px',
+}));
+
+const AnimeCardTitle = styled.p((props) => ({
+  display: '-webkit-box',
+  WebkitLineClamp: '2',
+  WebkitBoxOrient: 'vertical',
+  overflow: 'hidden',
+}));
 
 export default AnimeCard;

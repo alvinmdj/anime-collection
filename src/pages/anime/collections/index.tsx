@@ -43,39 +43,45 @@ const Collections = () => {
         >
           Create new collection
         </Button>
-        <CollectionContainer>
-          {collections.map((col) => (
-            <Link key={col.id} href={`/anime/collections/${col.id}`}>
-              <CollectionCard>
-                <CollectionCoverImage
-                  src={col.coverImage || '/images/empty-collection.png'}
-                  alt={col.name}
-                  width={150}
-                  height={200}
-                  style={{ objectFit: col.coverImage ? 'cover' : 'contain' }}
-                />
-                <p style={{ marginBottom: '8px', wordBreak: 'break-word' }}>
-                  {col.name}
-                </p>
-                <Button
-                  colorType="warning"
-                  width="100%"
-                  margin="auto 0 0 0"
-                  onClick={(e) => handleEdit(e, col.name)}
-                >
-                  Edit
-                </Button>
-                <Button
-                  colorType="danger"
-                  width="100%"
-                  onClick={(e) => handleDelete(e, col.id)}
-                >
-                  Remove
-                </Button>
-              </CollectionCard>
-            </Link>
-          ))}
-        </CollectionContainer>
+        {!!collections.length ? (
+          <CollectionContainer>
+            {collections.map((col) => (
+              <Link key={col.id} href={`/anime/collections/${col.id}`}>
+                <CollectionCard>
+                  <CollectionCoverImage
+                    src={col.coverImage || '/images/empty-collection.png'}
+                    alt={col.name}
+                    width={150}
+                    height={200}
+                    style={{ objectFit: col.coverImage ? 'cover' : 'contain' }}
+                  />
+                  <p style={{ marginBottom: '8px', wordBreak: 'break-word' }}>
+                    {col.name}
+                  </p>
+                  <Button
+                    colorType="warning"
+                    width="100%"
+                    margin="auto 0 0 0"
+                    onClick={(e) => handleEdit(e, col.name)}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    colorType="danger"
+                    width="100%"
+                    onClick={(e) => handleDelete(e, col.id)}
+                  >
+                    Remove
+                  </Button>
+                </CollectionCard>
+              </Link>
+            ))}
+          </CollectionContainer>
+        ) : (
+          <p style={{ textAlign: 'center', marginTop: '8px' }}>
+            You do not have any collection. Create a new one
+          </p>
+        )}
       </Container>
       <CreateCollectionModal
         show={showCreateModal}
