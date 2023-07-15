@@ -3,10 +3,12 @@ import styled from '@emotion/styled';
 
 type THeadingProps = {
   textCenter?: boolean;
+  margin?: string;
 };
 
 const Heading = styled.h1((props: THeadingProps) => ({
   textAlign: props.textCenter ? 'center' : 'unset',
+  margin: props.margin,
   fontSize: '20px',
   [mq[1]]: {
     fontSize: '24px',

@@ -1,4 +1,3 @@
-import { GetAnimeListQuery } from '@/__generated__/graphql';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -16,20 +15,19 @@ const AnimeCardTitle = styled.p((props) => ({
   overflow: 'hidden',
 }));
 
-const AnimeCard = (
-  props: NonNullable<NonNullable<GetAnimeListQuery['Page']>['media']>[number]
-) => {
+type TAnimeCardProps = {
+  id: number;
+  title: string;
+  coverImage: string;
+};
+
+const AnimeCard = ({ id, title, coverImage }: TAnimeCardProps) => {
   return (
-    <Link key={props?.id} href={`/anime/${props?.id}`}>
+    <Link href={`/anime/${id}`}>
       <AnimeCardDiv>
         <Image
-          src={props?.coverImage?.large || ''}
-          alt={
-            props?.title?.english ||
-            props?.title?.romaji ||
-            props?.title?.native ||
-            ''
-          }
+          src={coverImage}
+          alt={title}
           width={75}
           height={150}
           sizes="100vw"
@@ -41,11 +39,7 @@ const AnimeCard = (
             borderRadius: '8px',
           }}
         />
-        <AnimeCardTitle>
-          {props?.title?.romaji ||
-            props?.title?.english ||
-            props?.title?.native}
-        </AnimeCardTitle>
+        <AnimeCardTitle>{title}</AnimeCardTitle>
       </AnimeCardDiv>
     </Link>
   );

@@ -15,6 +15,12 @@ export type TAnime = {
 
 type TCollectionContext = {
   collections: TCollection[];
+  getCollectionData: (collectionId: string) => {
+    anime: TAnime[];
+    id: string;
+    name: string;
+    coverImage?: string | undefined;
+  } | null;
   createCollection: (
     name: string,
     coverImage?: string,

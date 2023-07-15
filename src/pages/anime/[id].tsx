@@ -94,7 +94,7 @@ const AnimeDetail = () => {
               {!!savedAnime.length ? (
                 <FlexWrapper>
                   {savedAnime.map((col) => (
-                    <Link key={col.id} href={`/anime/collections/${col.name}`}>
+                    <Link key={col.id} href={`/anime/collections/${col.id}`}>
                       <CoverImage
                         src={col.coverImage || '/images/empty-collection.png'}
                         alt={col.name}

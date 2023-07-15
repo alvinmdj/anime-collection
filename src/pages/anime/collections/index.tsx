@@ -45,7 +45,7 @@ const Collections = () => {
         </Button>
         <CollectionContainer>
           {collections.map((col) => (
-            <Link key={col.id} href={`/anime/collections/${col.name}`}>
+            <Link key={col.id} href={`/anime/collections/${col.id}`}>
               <CollectionCard>
                 <CollectionCoverImage
                   src={col.coverImage || '/images/empty-collection.png'}

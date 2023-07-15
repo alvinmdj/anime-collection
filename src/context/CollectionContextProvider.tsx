@@ -25,6 +25,25 @@ const CollectionContextProvider = ({ children }: { children: ReactNode }) => {
     } else isMounted.current = true;
   }, [collections, anime]);
 
+  function getCollectionData(collectionId: string) {
+    // get collection anime
+    const collectionAnime = anime.filter(
+      (ani) => ani.collectionId === collectionId
+    );
+
+    // get collection info
+    const collectionInfo = collections.find((col) => col.id === collectionId);
+
+    if (collectionInfo) {
+      return {
+        ...collectionInfo,
+        anime: collectionAnime,
+      };
+    }
+
+    return null;
+  }
+
   function createCollection(name: string, coverImage: string = '') {
     const id = uuidv4();
     setCollections((prevState) => [...prevState, { id, name, coverImage }]);
@@ -133,6 +152,7 @@ const CollectionContextProvider = ({ children }: { children: ReactNode }) => {
     <CollectionContext.Provider
       value={{
         collections,
+        getCollectionData,
         createCollection,
         updateCollection,
         deleteCollection,

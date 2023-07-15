@@ -46,16 +46,23 @@ export default function Home() {
     <>
       <Layout>
         <Container margin="20px 0">
-          <Heading textCenter>All-Time Popular Anime</Heading>
+          <Heading textCenter margin="0 0 20px 0">
+            All-Time Popular Anime
+          </Heading>
           <AnimeListContainer>
             {anime.loading && <p>Loading...</p>}
             {anime.error && <p>Error!</p>}
             {anime.data?.Page?.media?.map((m) => (
               <AnimeCard
-                key={m?.id}
+                key={m!.id}
                 id={m!.id}
-                title={m?.title}
-                coverImage={m?.coverImage}
+                title={
+                  m?.title?.english ||
+                  m?.title?.romaji ||
+                  m?.title?.native ||
+                  ''
+                }
+                coverImage={m?.coverImage?.large || ''}
               />
             ))}
           </AnimeListContainer>
