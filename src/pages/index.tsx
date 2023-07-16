@@ -62,27 +62,37 @@ export default function Home() {
             Bulk Add Anime to Collection
           </Button>
           {anime.loading && <LoadingSpinner />}
-          {anime.error && <p>Error! Please try again later.</p>}
-          <AnimeListContainer>
-            {anime.data?.Page?.media?.map((m) => (
-              <AnimeCard
-                key={m!.id}
-                id={m!.id}
-                title={
-                  m?.title?.english ||
-                  m?.title?.romaji ||
-                  m?.title?.native ||
-                  ''
-                }
-                coverImage={m?.coverImage?.large || ''}
+          {anime.error && (
+            <p style={{ textAlign: 'center', margin: '10px' }}>
+              {anime.error.message}
+            </p>
+          )}
+          {!!anime.data?.Page?.media?.length ? (
+            <>
+              <AnimeListContainer>
+                {anime.data?.Page?.media?.map((m) => (
+                  <AnimeCard
+                    key={m!.id}
+                    id={m!.id}
+                    title={
+                      m?.title?.english ||
+                      m?.title?.romaji ||
+                      m?.title?.native ||
+                      ''
+                    }
+                    coverImage={m?.coverImage?.large || ''}
+                  />
+                ))}
+              </AnimeListContainer>
+              <Pagination
+                handlePagination={handlePagination}
+                currentPage={anime.data?.Page?.pageInfo?.currentPage || 1}
+                hasNextPage={anime.data?.Page?.pageInfo?.hasNextPage || false}
               />
-            ))}
-          </AnimeListContainer>
-          <Pagination
-            handlePagination={handlePagination}
-            currentPage={anime.data?.Page?.pageInfo?.currentPage || 1}
-            hasNextPage={anime.data?.Page?.pageInfo?.hasNextPage || false}
-          />
+            </>
+          ) : (
+            <p style={{ textAlign: 'center' }}>No anime found</p>
+          )}
         </Container>
         <BulkAddAnimeModal
           show={showBulkAddModal}

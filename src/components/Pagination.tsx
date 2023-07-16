@@ -1,37 +1,31 @@
 import styled from '@emotion/styled';
 
-const PaginationContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+const PaginationContainer = styled.div((props) => ({
+  display: 'flex',
+  flexWrap: 'wrap',
+  gap: '8px',
+  justifyContent: 'center',
+  alignItems: 'center',
+}));
 
-const Button = styled.button`
-  color: white;
-  background-color: #2b2d42;
-  padding: 8px 16px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s;
+const PaginationButton = styled.button((props) => ({
+  color: 'white',
+  backgroundColor: '#2b2d42',
+  padding: '8px 16px',
+  borderRadius: '8px',
+  border: 'none',
+  cursor: 'pointer',
+  transition: 'background-color 0.3s',
 
-  &:hover {
-    background-color: #394168;
-  }
+  '&:hover': {
+    backgroundColor: '#394168',
+  },
 
-  &:disabled {
-    background-color: gray;
-    cursor: not-allowed;
-  }
-`;
-
-const PrevButton = styled(Button)`
-  margin-right: 4px;
-`;
-
-const NextButton = styled(Button)`
-  margin-left: 4px;
-`;
+  '&:disabled': {
+    backgroundColor: 'gray',
+    cursor: 'not-allowed',
+  },
+}));
 
 type TPaginationProps = {
   currentPage: number;
@@ -50,20 +44,20 @@ const Pagination = ({
 }: TPaginationProps) => {
   return (
     <PaginationContainer>
-      <PrevButton
+      <PaginationButton
         type="button"
         disabled={currentPage === 1}
         onClick={() => handlePagination('PREV')}
       >
         Prev
-      </PrevButton>
-      <NextButton
+      </PaginationButton>
+      <PaginationButton
         type="button"
         disabled={!hasNextPage}
         onClick={() => handlePagination('NEXT')}
       >
         Next
-      </NextButton>
+      </PaginationButton>
     </PaginationContainer>
   );
 };

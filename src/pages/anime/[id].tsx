@@ -33,7 +33,11 @@ const AnimeDetail = () => {
   return (
     <MainLayout>
       {animeDetail.loading && <LoadingSpinner />}
-      {animeDetail.error && <p>Error! Please try again later.</p>}
+      {animeDetail.error && (
+        <p style={{ textAlign: 'center', margin: '12px' }}>
+          {animeDetail.error.message}
+        </p>
+      )}
       {animeDetail.data && (
         <>
           <BannerImage

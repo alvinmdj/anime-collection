@@ -151,7 +151,7 @@ const BulkAddAnimeModal = ({ show, onClose }: TBulkAddAnimeModalProps) => {
         {anime.loading && <LoadingSpinner />}
         {anime.error && (
           <p style={{ fontSize: '14px', margin: '10px 10px 10px' }}>
-            Error! Please try again later.
+            {anime.error.message}
           </p>
         )}
         {anime.data && (
