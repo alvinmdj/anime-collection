@@ -12,7 +12,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { MouseEvent, useContext, useState } from 'react';
 
-const CollectionDetail = () => {
+const CollectionDetailPage = () => {
   const router = useRouter();
 
   const [editName, setEditName] = useState('');
@@ -123,4 +123,4 @@ const AnimeCollectionCoverImage = styled(Image)((props) => ({
   marginBottom: '8px',
 }));
 
-export default CollectionDetail;
+export default CollectionDetailPage;

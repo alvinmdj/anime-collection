@@ -17,7 +17,7 @@ const BulkAddAnimeModal = dynamic(
   () => import('@/components/Modal/BulkAddAnimeModal')
 );
 
-export default function Home() {
+export default function AnimeListPage() {
   const router = useRouter();
 
   const [page, setPage] = useState(1);

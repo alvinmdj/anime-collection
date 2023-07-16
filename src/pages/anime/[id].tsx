@@ -15,7 +15,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
 
-const AnimeDetail = () => {
+const AnimeDetailPage = () => {
   const router = useRouter();
 
   const { getAnimeCollections } = useContext(CollectionContext);
@@ -195,4 +195,4 @@ const FlexWrapper = styled('div')(({ gap }: { gap?: string }) => ({
   gap: gap || '12px',
 }));
 
-export default AnimeDetail;
+export default AnimeDetailPage;

@@ -1,5 +1,5 @@
 import CollectionContextProvider from '@/context/CollectionContextProvider';
-import Home from '@/pages';
+import AnimeListPage from '@/pages';
 import { MockedProvider } from '@apollo/client/testing';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
@@ -10,9 +10,9 @@ jest.mock('next/router', () => require('next-router-mock'));
 describe('Anime List Page', () => {
   it('shows loading spinner and then anime title', async () => {
     render(
-      <MockedProvider mocks={getAnimeListMock}>
+      <MockedProvider mocks={getAnimeListMock} addTypename={false}>
         <CollectionContextProvider>
-          <Home />
+          <AnimeListPage />
         </CollectionContextProvider>
       </MockedProvider>
     );
@@ -23,9 +23,9 @@ describe('Anime List Page', () => {
 
   it('shows error message when encountered an error', async () => {
     render(
-      <MockedProvider mocks={getAnimeListMockNetworkError}>
+      <MockedProvider mocks={getAnimeListMockNetworkError} addTypename={false}>
         <CollectionContextProvider>
-          <Home />
+          <AnimeListPage />
         </CollectionContextProvider>
       </MockedProvider>
     );
@@ -37,7 +37,7 @@ describe('Anime List Page', () => {
     render(
       <MockedProvider mocks={getAnimeListMock}>
         <CollectionContextProvider>
-          <Home />
+          <AnimeListPage />
         </CollectionContextProvider>
       </MockedProvider>
     );

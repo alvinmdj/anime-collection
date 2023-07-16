@@ -12,7 +12,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { MouseEvent, useContext, useState } from 'react';
 
-const Collections = () => {
+const CollectionListPage = () => {
   const { collections, deleteCollection } = useContext(CollectionContext);
 
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -138,4 +138,4 @@ const CollectionCoverImage = styled(Image)((props) => ({
   width: '100%',
 }));
 
-export default Collections;
+export default CollectionListPage;
