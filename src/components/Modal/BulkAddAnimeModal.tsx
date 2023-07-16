@@ -73,7 +73,7 @@ const BulkAddAnimeModal = ({ show, onClose }: TBulkAddAnimeModalProps) => {
     let count = 0;
     selectedAnime.forEach((ani) => {
       if (isAnimeInCollection(ani.id, collectionId)) {
-        errorMessage += !!count ? `'${ani.title}, '` : `'${ani.title}'`;
+        errorMessage += !!count ? `, '${ani.title}'` : `'${ani.title}'`;
         count++;
       }
     });
