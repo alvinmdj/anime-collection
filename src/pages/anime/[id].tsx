@@ -3,6 +3,7 @@ import Button from '@/components/Button';
 import Container from '@/components/Container';
 import MainLayout from '@/components/Layout/MainLayout';
 import AddAnimeModal from '@/components/Modal/AddAnimeModal';
+import LoadingSpinner from '@/components/Spinner';
 import Heading from '@/components/Text/Heading';
 import CollectionContext from '@/context/collection-context';
 import { GET_ANIME_DETAIL } from '@/graphql/anime';
@@ -31,8 +32,8 @@ const AnimeDetail = () => {
 
   return (
     <MainLayout>
-      {animeDetail.loading && <p>Loading...</p>}
-      {animeDetail.error && <p>Error!</p>}
+      {animeDetail.loading && <LoadingSpinner />}
+      {animeDetail.error && <p>Error! Please try again later.</p>}
       {animeDetail.data && (
         <>
           <BannerImage

@@ -9,6 +9,7 @@ import Button from '../Button';
 import Checkbox from '../Checkbox';
 import Pagination from '../Pagination';
 import SelectWithLabel from '../SelectWithLabel';
+import LoadingSpinner from '../Spinner';
 import ErrorMessage from '../Text/ErrorMessage';
 import CreateCollectionModal from './CreateCollectionModal';
 
@@ -147,13 +148,11 @@ const BulkAddAnimeModal = ({ show, onClose }: TBulkAddAnimeModalProps) => {
         <p style={{ fontSize: '14px', margin: '10px 10px 10px' }}>
           Choose anime to add
         </p>
-        {anime.loading && (
-          <p style={{ fontSize: '14px', margin: '10px 10px 10px' }}>
-            Loading...
-          </p>
-        )}
+        {anime.loading && <LoadingSpinner />}
         {anime.error && (
-          <p style={{ fontSize: '14px', margin: '10px 10px 10px' }}>Error!</p>
+          <p style={{ fontSize: '14px', margin: '10px 10px 10px' }}>
+            Error! Please try again later.
+          </p>
         )}
         {anime.data && (
           <AnimeListContainerModal>

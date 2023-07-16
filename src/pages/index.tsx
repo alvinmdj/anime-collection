@@ -5,6 +5,7 @@ import Button from '@/components/Button';
 import Container from '@/components/Container';
 import Layout from '@/components/Layout/MainLayout';
 import Pagination from '@/components/Pagination';
+import LoadingSpinner from '@/components/Spinner';
 import Heading from '@/components/Text/Heading';
 import { GET_ANIME_LIST } from '@/graphql/anime';
 import { useQuery } from '@apollo/client';
@@ -60,9 +61,9 @@ export default function Home() {
           >
             Bulk Add Anime to Collection
           </Button>
+          {anime.loading && <LoadingSpinner />}
+          {anime.error && <p>Error! Please try again later.</p>}
           <AnimeListContainer>
-            {anime.loading && <p>Loading...</p>}
-            {anime.error && <p>Error!</p>}
             {anime.data?.Page?.media?.map((m) => (
               <AnimeCard
                 key={m!.id}
