@@ -23,7 +23,7 @@ const Wrapper = styled.div((props) => ({
 }));
 
 const LoadingSpinner = () => (
-  <Wrapper>
+  <Wrapper data-testid="loading-spinner">
     <Spinner />
   </Wrapper>
 );

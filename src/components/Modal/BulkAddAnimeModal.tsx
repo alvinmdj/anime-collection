@@ -7,9 +7,9 @@ import { FormEvent, useContext, useEffect, useState } from 'react';
 import Modal, { ModalFooter } from '.';
 import Button from '../Button';
 import Checkbox from '../Checkbox';
+import LoadingSpinner from '../LoadingSpinner';
 import Pagination from '../Pagination';
 import SelectWithLabel from '../SelectWithLabel';
-import LoadingSpinner from '../Spinner';
 import ErrorMessage from '../Text/ErrorMessage';
 import CreateCollectionModal from './CreateCollectionModal';
 
