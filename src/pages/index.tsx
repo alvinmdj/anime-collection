@@ -11,7 +11,7 @@ import { GET_ANIME_LIST } from '@/graphql/anime';
 import { useQuery } from '@apollo/client';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 const BulkAddAnimeModal = dynamic(
   () => import('@/components/Modal/BulkAddAnimeModal')
@@ -20,27 +20,22 @@ const BulkAddAnimeModal = dynamic(
 export default function AnimeListPage() {
   const router = useRouter();
 
-  const [page, setPage] = useState(1);
   const [showBulkAddModal, setShowBulkAddModal] = useState(false);
+
+  const page = Number(router.query.page) || 1;
 
   const anime = useQuery(GET_ANIME_LIST, {
     variables: {
-      page: Number(router.query.page) || page,
+      page,
       perPage: 10,
       sort: MediaSort['PopularityDesc'],
     },
   });
 
-  useEffect(() => {
-    setPage(Number(router.query.page) || 1);
-  }, [router.query.page]);
-
   function handlePagination(type: 'PREV' | 'NEXT') {
     if (type === 'PREV' && page > 1) {
-      setPage(page - 1);
       router.query.page = (page - 1).toString();
     } else if (type === 'NEXT' && anime.data?.Page?.pageInfo?.hasNextPage) {
-      setPage(page + 1);
       router.query.page = (page + 1).toString();
     }
 
@@ -67,7 +62,7 @@ export default function AnimeListPage() {
               {anime.error.message}
             </p>
           )}
-          {!!anime.data?.Page?.media?.length ? (
+          {anime.data && !!anime.data.Page?.media?.length && (
             <>
               <AnimeListContainer>
                 {anime.data?.Page?.media?.map((m) => (
@@ -90,8 +85,9 @@ export default function AnimeListPage() {
                 hasNextPage={anime.data?.Page?.pageInfo?.hasNextPage || false}
               />
             </>
-          ) : (
-            <p style={{ textAlign: 'center' }}>No anime found</p>
+          )}
+          {anime.data && !!!anime.data.Page?.media?.length && (
+            <p style={{ textAlign: 'center' }}>No anime found.</p>
           )}
         </Container>
         <BulkAddAnimeModal
